@@ -1,0 +1,28 @@
+{
+  "name": "mysql-bamazon",
+  "version": "1.0.0",
+  "description": "Building an Amazon-like store using MySql to build database and node to interact with marketplace.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/taylornok/mysql-bamazon.git"
+  },
+  "keywords": [
+    "MySql",
+    "Node",
+    "Inquirer"
+  ],
+  "author": "Taylor Owens-Kees",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/taylornok/mysql-bamazon/issues"
+  },
+  "homepage": "https://github.com/taylornok/mysql-bamazon#readme",
+  "dependencies": {
+    "inquirer": "^6.1.0",
+    "npm": "^6.3.0"
+  }
+}
