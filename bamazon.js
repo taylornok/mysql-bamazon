@@ -86,9 +86,8 @@ function start() {
                 message: console.log('Great choice! You picked the  ' + userChoice.Item_Name + ' I\'ll add it to the cart, but first -- how many would you like?')
             }]).then(answer2 =>{
                 Object.keys(answer2)[0];
-                var key = Object.keys(answer2)[0];
+                var key = Object.keys(answer2);
                 var userChoice2 = answer2[key];
-                userChoice2 = response[userChoice2]
                 console.log(userChoice2);
                 
                 inquirer.prompt([{
@@ -99,7 +98,7 @@ function start() {
                 }]).then(confirmCart => {
                     if (confirmCart === true){
 
-                        console.log('Okay got it, so you want ' + userChoice2 + ' and, ' + userChoice2 + 'of \'em.')
+                       ( console.log('Okay got it, so you want ' + userChoice2 + 1) + ' and, ' + userChoice2 + 'of \'em.')
                     }
                     else{
                         console.log('Sorry, let\'s try again')
