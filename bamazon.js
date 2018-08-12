@@ -1,5 +1,5 @@
 //------------------------link node dependancies------------------------
-var inquirer = require ('inquirer');
+var inquirer = require('inquirer');
 var mysql = require('mysql');
 var Table = require('cli-table');
 
@@ -20,7 +20,7 @@ var connection = mysql.createConnection({
 
 //---------------------connect mymsql server-----------------
 
-connection.connect(function(err) {
+connection.connect(function (err) {
 
     console.log('\n---------------Welcome!---------------------');
     if (err) throw err
@@ -32,19 +32,19 @@ connection.connect(function(err) {
 
 //--------------------------create a table to  display database data--------------------------
 
-function display () {
-    
+function display() {
+
     connection.query('SELECT * FROM sale_items', function (err, result, fields) {
-        
+
         if (err) throw err
-        
+
         console.log('\n');
-    
+
         var table = new Table({
-            head: ['Id', 'Item', 'Department', 'Price', 'In Stock']
-            , colWidths: [5,50,20,10,10]
+            head: ['Id', 'Item', 'Department', 'Price', 'In Stock'],
+            colWidths: [5, 50, 20, 10, 10]
         });
-        
+
         for (var i = 0; i < result.length; i++) {
             table.push(
                 [result[i].Id, result[i].Item_Name, result[i].Department, result[i].Price, result[i].Amount_In_Stock]
@@ -53,27 +53,58 @@ function display () {
 
         console.log(table.toString());
     });
-    
+
 }
 
 //-------------------------using inquirer to gather input from the user---------------------------
 
-function start () {
+function start() {
 
     console.log('\n');
 
-    inquirer.prompt([
-        {
-          type: "input",
-          name: "userInput",
-          message: "Hello and welcome to Bamazon, your one stop shop for all the things you never knew you needed! What would you like to buy? Enter in the ID number of the item you'd wish to buy"
+    inquirer.prompt([{
+        type: 'input',
+        name: 'pickItem',
+        message: 'Hello and welcome to Bamazon, your one stop shop for all the things you never knew you needed!\nWhat would you like to buy? Enter in the ID number of the item you\'d wish to buy.'
         }
-      
-      //------------------after the prompt, store the user's response in a variable called choice-------------------
-      ]).then(function(choice) {
 
+        //-------------------------after the prompt, store the user's response in a variable called answer----------------------
+    ]).then(answer => {
         
-        console.log('Great, you chose ' + choice.Item + ' for ' + choice.Price)
+        connection.query('SELECT * FROM sale_items', {id: answer.input}, function (err, response) {
+            if (err) throw err
+            //-----interpret user input as an interger, parse and trim-----
+            Object.keys(answer)[0];
+            var key = Object.keys(answer)[0];
+            var userChoice = answer[key];
+            console.log(userChoice)
+            
+            inquirer.prompt([{
+                type: 'input',
+                name: 'pickQuantity',
+                message: console.log('Great choice! You picked ' + userChoice + ' I\'ll add it to the cart, but first -- how many would you like?')
+            }]).then(answer2 =>{
+                Object.keys(answer2)[0];
+                var key = Object.keys(answer2)[0];
+                var userChoice2 = answer2[key];
+                console.log(userChoice2);
+                
+                
+            });
 
-      });
-}
+            inquirer.prompt([{
+                type: 'confirm',
+                name: 'confirmPurchase',
+                message: 'Are you sure that\'s what you want?'
+
+            }]).then(confirmCart => {
+                if (confirmCart === true) {
+                    console.log('Okay got it, so you want ' + userChoice)
+                }
+            })
+
+        });
+    });    
+
+       
+};
