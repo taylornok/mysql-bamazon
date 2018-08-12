@@ -89,19 +89,19 @@ function start() {
                 var userChoice2 = answer2[key];
                 console.log(userChoice2);
                 
+                inquirer.prompt([{
+                    type: 'confirm',
+                    name: 'confirmPurchase',
+                    message: 'Are you sure that\'s what you want?'
+    
+                }]).then(confirmCart => {
+                    if (confirmCart === true) {
+                        console.log('Okay got it, so you want ' + userChoice)
+                    }
+                })
                 
             });
 
-            inquirer.prompt([{
-                type: 'confirm',
-                name: 'confirmPurchase',
-                message: 'Are you sure that\'s what you want?'
-
-            }]).then(confirmCart => {
-                if (confirmCart === true) {
-                    console.log('Okay got it, so you want ' + userChoice)
-                }
-            })
 
         });
     });    
