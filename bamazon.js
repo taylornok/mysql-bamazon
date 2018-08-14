@@ -73,17 +73,18 @@ function start() {
         
         connection.query('SELECT * FROM sale_items', {id: answer.input}, function (err, response) {
             if (err) throw err
-            //-----interpret user input as an interger, parse and trim-----
+            //-------interpret user input as an interger, parse and trim-------
             Object.keys(answer)[0];
             var key = Object.keys(answer)[0];
             var userChoice = answer[key];
-            userChoice = response[userChoice];
-            console.log(userChoice);
-            
+            userChoice = response[userChoice - 1];
+            console.log(userChoice)
+            var userPick = userChoice.Item_Name
+
             inquirer.prompt([{
                 type: 'input',
                 name: 'pickQuantity',
-                message: console.log('Great choice! You picked the  ' + userChoice.Item_Name + ' I\'ll add it to the cart, but first -- how many would you like?')
+                message: console.log('Great choice! You picked the  ' + userChoice.Item_Name + '.' + ' I\'ll add it to the cart, but first -- how many would you like?')
             }]).then(answer2 =>{
                 Object.keys(answer2)[0];
                 var key = Object.keys(answer2);
@@ -96,9 +97,9 @@ function start() {
                     message: 'Are you sure that\'s what you want?'
     
                 }]).then(confirmCart => {
-                    if (confirmCart === true){
+                    if (confirmCart){
 
-                       ( console.log('Okay got it, so you want ' + userChoice2 + 1) + ' and, ' + userChoice2 + 'of \'em.')
+                        console.log('Okay got it, so you want ' + userPick+  ', and ' + answer2[key] + ' of them. Let\'s load the cart up!')
                     }
                     else{
                         console.log('Sorry, let\'s try again')
