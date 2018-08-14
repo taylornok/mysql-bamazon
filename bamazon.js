@@ -22,7 +22,7 @@ var connection = mysql.createConnection({
 
 connection.connect(function (err) {
 
-    console.log('\n---------------Welcome!---------------------');
+    console.log('\n---------------------------~~~~~~~~~~~~~~~~Welcome!~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~--------------------------------');
     if (err) throw err
     //-------------------select data from bamazon_db.sale_items------------------------
     display();
@@ -63,17 +63,19 @@ function start() {
     console.log('\n');
 
     inquirer.prompt([{
-        type: 'input',
-        name: 'pickItem',
-        message: 'Hello and welcome to Bamazon, your one stop shop for all the things you never knew you needed!\nWhat would you like to buy? Enter in the ID number of the item you\'d wish to buy.'
+            type: 'input',
+            name: 'pickItem',
+            message: 'Hello and welcome to Bamazon, your one stop shop for all the things you never knew you needed!\nWhat would you like to buy? Enter in the ID number of the item you\'d wish to buy.'
         }
 
         //-------------------------after the prompt, store the user's response in a variable called answer----------------------
     ]).then(answer => {
-        
-        connection.query('SELECT * FROM sale_items', {id: answer.input}, function (err, response) {
+
+        connection.query('SELECT * FROM sale_items', {
+            id: answer.input
+        }, function (err, response) {
             if (err) throw err
-            //-------interpret user input as an interger, parse and trim-------
+            //-------interpret user input as an integer, parse and trim-------will be doing this later to improve functionality---------------------
             Object.keys(answer)[0];
             var key = Object.keys(answer)[0];
             var userChoice = answer[key];
@@ -85,34 +87,33 @@ function start() {
                 type: 'input',
                 name: 'pickQuantity',
                 message: console.log('Great choice! You picked the  ' + userChoice.Item_Name + '.' + ' I\'ll add it to the cart, but first -- how many would you like?')
-            }]).then(answer2 =>{
+            }]).then(answer2 => {
                 Object.keys(answer2)[0];
                 var key = Object.keys(answer2);
                 var userChoice2 = answer2[key];
                 console.log(userChoice2);
-                
+
                 inquirer.prompt([{
                     type: 'confirm',
                     name: 'confirmPurchase',
                     message: 'Are you sure that\'s what you want?'
-    
-                }]).then(confirmCart => {
-                    if (confirmCart){
 
-                        console.log('Okay got it, so you want ' + userPick+  ', and ' + answer2[key] + ' of them. Let\'s load the cart up!')
-                    }
-                    else{
-                        console.log('Sorry, let\'s try again')
+                }]).then(confirmCart => {
+                    if (confirmCart) {
+
+                        console.log('Okay got it, so you want ' + userPick + ', and ' + answer2[key] + ' of them. Let\'s load the cart up!')
+                    } else {
+                        console.log('Sorry, I did\'nt get that, let\'s try again')
                     }
 
 
                 })
-                
+
             });
 
 
         });
-    });    
+    });
 
-       
+
 };
