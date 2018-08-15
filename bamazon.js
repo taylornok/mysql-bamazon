@@ -80,8 +80,10 @@ function start() {
             var key = Object.keys(answer)[0];
             var userChoice = answer[key];
             userChoice = response[userChoice - 1];
-            console.log(userChoice)
-            var userPick = userChoice.Item_Name
+            console.log(userChoice);
+            var userChoice1 = userChoice.Item_Name;
+            var itemPrice = userChoice.Price;
+            
 
             inquirer.prompt([{
                 type: 'input',
@@ -100,13 +102,20 @@ function start() {
 
                 }]).then(confirmCart => {
                     if (confirmCart) {
-
-                        console.log('Okay got it, so you want ' + userPick + ', and ' + answer2[key] + ' of them. Let\'s load the cart up!')
-                        // console.log('That\ll be ' + )
+                        
+                        var total = Math.floor(parseFloat(userChoice2) * parseFloat(itemPrice))
+                        console.log('Okay got it, so you want ' + userChoice1 + ', and ' + userChoice2 + ' of them. \nLet\'s load the cart up! That\'ll be ')
+                        console.log(
+                            '\nA ' + userChoice1 + ' is ' + userChoice1.Price + ' each. You total is ' + total
+                        )
+                        console.log(itemPrice);
+                        console.log(total);
+                        
                         
                     } else {
-                        console.log('Sorry, I did\'nt get that, let\'s try again')
+                        console.log('Sorry, I did\'nt get that, let\'s try again');
                     }
+
                 })
 
             });
