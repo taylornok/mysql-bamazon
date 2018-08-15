@@ -102,11 +102,11 @@ function start() {
                     if (confirmCart) {
 
                         console.log('Okay got it, so you want ' + userPick + ', and ' + answer2[key] + ' of them. Let\'s load the cart up!')
+                        // console.log('That\ll be ' + )
+                        
                     } else {
                         console.log('Sorry, I did\'nt get that, let\'s try again')
                     }
-
-
                 })
 
             });
