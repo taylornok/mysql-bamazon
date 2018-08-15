@@ -24,7 +24,7 @@ connection.connect(function (err) {
 
     console.log('\n---------------------------~~~~~~~~~~~~~~~~Welcome!~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~--------------------------------');
     if (err) throw err
-    //-------------------select data from bamazon_db.sale_items------------------------
+    //-------------------select data from bamazon_db.stock------------------------
     display();
     start();
 
@@ -34,7 +34,7 @@ connection.connect(function (err) {
 
 function display() {
 
-    connection.query('SELECT * FROM sale_items', function (err, result, fields) {
+    connection.query('SELECT * FROM stock', function (err, result, fields) {
 
         if (err) throw err
 
@@ -71,7 +71,7 @@ function start() {
         //-------------------------after the prompt, store the user's response in a variable called answer----------------------
     ]).then(answer => {
 
-        connection.query('SELECT * FROM sale_items', {
+        connection.query('SELECT * FROM stock', {
             id: answer.input
         }, function (err, response) {
             if (err) throw err
@@ -80,7 +80,7 @@ function start() {
             var key = Object.keys(answer)[0];
             var userChoice = answer[key];
             userChoice = response[userChoice - 1];
-            console.log(userChoice);
+
             var userChoice1 = userChoice.Item_Name;
             var itemPrice = userChoice.Price;
             
@@ -93,7 +93,7 @@ function start() {
                 Object.keys(answer2)[0];
                 var key = Object.keys(answer2);
                 var userChoice2 = answer2[key];
-                console.log(userChoice2);
+                // console.log(userChoice2);
 
                 inquirer.prompt([{
                     type: 'confirm',
@@ -103,13 +103,10 @@ function start() {
                 }]).then(confirmCart => {
                     if (confirmCart) {
                         
-                        var total = Math.floor(parseFloat(userChoice2) * parseFloat(itemPrice))
-                        console.log('Okay got it, so you want ' + userChoice1 + ', and ' + userChoice2 + ' of them. \nLet\'s load the cart up! That\'ll be ')
-                        console.log(
-                            '\nA ' + userChoice1 + ' is ' + userChoice1.Price + ' each. You total is ' + total
-                        )
-                        console.log(itemPrice);
-                        console.log(total);
+                        var total = Math.round(parseInt(userChoice2) * parseInt(itemPrice));
+                        console.log('Okay got it, so you want ' + userChoice1 + ', and ' + userChoice2 + ' of them. Let\'s load the cart up! ')
+                        console.log('The ' + userChoice1 + ' is $' + itemPrice + ' dollars each. Your total is $' + total + ' USD for ' + userChoice2)
+                       
                         
                         
                     } else {
