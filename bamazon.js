@@ -34,7 +34,7 @@ connection.connect(function (err) {
 
 function display() {
 
-    connection.query('SELECT * FROM stock', function (err, result, fields) {
+    connection.query('SELECT * FROM stock', function (err, result) {
 
         if (err) throw err
 
@@ -123,32 +123,42 @@ function start() {
                     name: 'confirmPurchase',
                     message: 'Are you sure that\'s what you want?'
 
-                }]).then(confirmCart => {
+                }]).then(function update => {
                     if (confirmCart) {
 
-                        var total = Math.round(parseInt(userChoice2) * parseInt(itemPrice));
-                        console.log('Okay got it, so you want ' + userChoice1 + ', and ' + userChoice2 + ' of them. Let\'s load the cart up! ')
-                        console.log('The ' + userChoice1 + ' is $' + itemPrice + ' dollars each. Your total is $' + total + ' USD for ' + userChoice2)
+                        if (userChoice.Amount_In_Stock > userChoice2) {
 
-                        // updateDB();
-                        var stockBought = userChoice2;
-                        var stockQuantity = userChoice.Amount_In_Stock;
-                        var newTotal = stockQuantity - stockBought
-                        var sql = "UPDATE STOCK SET ? WHERE? ";
-                        console.log(newTotal)
-                        console.log(stockBought)
-                            
-                        connection.query(sql,[{
-                            Id: userChoice.Id
-                        },{
-                            
-                            Amount_In_Stock: newTotal
-                        }], function (error, response) {
-                            if (error) throw error;
-                            console.log("Updated!")
-                            
-                            console.log(response.affectedRows + " record(s) updated");
-                        });
+                          var total = Math.round(parseInt(userChoice2) * parseInt(itemPrice));
+                          console.log('Okay got it, so you want ' + userChoice1 + ', and ' + userChoice2 + ' of them. Let\'s load the cart up! ')
+                          console.log('The ' + userChoice1 + ' is $' + itemPrice + ' dollars each. Your total is $' + total + ' USD for ' + userChoice2)
+    
+                          // updateDB();
+                          var stockBought = userChoice2;
+                          var stockQuantity = userChoice.Amount_In_Stock;
+                          var newTotal = stockQuantity - stockBought
+                          var sql = "UPDATE stock SET ? WHERE ?"
+                          
+                        
+                          console.log(newTotal)
+                              
+                          connection.query(sql,[{
+                              Id: update.Id
+                          },{
+                              
+                              Amount_In_Stock: update.newTotal
+                          }], 
+                          
+                          function (error, response) {
+                              if (error) throw error;
+                              console.log("Updated!")
+                              console.log(userChoice1)
+                              
+                              console.log(response.affectedRows + " record(s) updated");
+
+                          }
+                        );
+                      }
+
 
                         
                     } else {
