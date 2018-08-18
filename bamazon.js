@@ -123,7 +123,7 @@ function start() {
                     name: 'confirmPurchase',
                     message: 'Are you sure that\'s what you want?'
 
-                }]).then(function update => {
+                }]).then(confirmCart => {
                     if (confirmCart) {
 
                         if (userChoice.Amount_In_Stock > userChoice2) {
@@ -142,10 +142,10 @@ function start() {
                           console.log(newTotal)
                               
                           connection.query(sql,[{
-                              Id: update.Id
+                              Id: userChoice.Id
                           },{
                               
-                              Amount_In_Stock: update.newTotal
+                              Amount_In_Stock: newTotal
                           }], 
                           
                           function (error, response) {
